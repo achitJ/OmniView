@@ -7,8 +7,6 @@ import { use, useEffect, useState } from "react";
 import styles from "./styles.module.css"
 import Pagination from "./Pagination";
 import Sort from "./Sort";
-// import channel from "@/api/pieSocket"
-
 
 function Loader() {
     return (

@@ -3,6 +3,7 @@
 import config from "@/config"
 import { useDataStore } from "@/stores/data"
 import { IconHome } from "@tabler/icons-react"
+import channelPromise from "@/api/pieSocket"
 
 const { datas, dataIcons } = config
 
@@ -30,7 +31,12 @@ export default function SideBar() {
                         <div 
                             className={`text-lg flex mt-8 gap-1 capitalize cursor-pointer ${color}`} 
                             key={data + index}
-                            onClick={() => setCurrentData(data)}
+                            onClick={() => {
+                                setCurrentData(data);
+                                channelPromise.then((channel) => {
+                                    channel.publish("data-change", data);
+                                })
+                            }}
                         >
                             <span>
                                 <Icon size={24} />

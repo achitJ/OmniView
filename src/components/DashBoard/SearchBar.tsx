@@ -3,6 +3,7 @@
 import { useDataStore } from "@/stores/data";
 import { IconSearch } from "@tabler/icons-react";
 import { useEffect, useState } from "react";
+import channelPromise from "@/api/pieSocket";
 
 export default function SearchBar() {
     const [searchQuery, setSearchQuery] = useState('');
@@ -14,8 +15,16 @@ export default function SearchBar() {
         const value = e.target.value;
         
         setSearchQuery(value);
-        // setSearchData(currentData, value);
     };
+
+    useEffect(() => {
+        channelPromise.then(channel => {
+            channel.listen("search-data", ({ data, query }: {data: DataString, query: string}) => {
+                setSearchData(data, query);
+                setSearchQuery(query);
+            });
+        });
+    }, []);
 
     useEffect(() => {
         const handler = setTimeout(() => {
@@ -29,10 +38,16 @@ export default function SearchBar() {
 
     useEffect(() => {
         setSearchData(currentData, debouncedValue);
+        channelPromise.then(channel => {
+            channel.publish("search-data", { data: currentData, query: debouncedValue });
+        });
     }, [debouncedValue]);
 
     useEffect(() => {
         setSearchData(currentData, "");
+        channelPromise.then(channel => {
+            channel.publish("search-data", { data: currentData, query: "" });
+        });
         setSearchQuery("");
     }, [currentData]);
 

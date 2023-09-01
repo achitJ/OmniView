@@ -1,18 +1,23 @@
-// @ts-nocheck
 import PieSocket from 'piesocket-js';
 import { getorCreateRoom } from '@/utils/socket'
+import { useDataStore } from '@/stores/data';
 
-const userId = "user_"+(Math.floor(Math.random() * 1000));
+const userId = "user_" + (Math.floor(Math.random() * 1000));
 const pieSocket = new PieSocket({
     apiKey: process.env.NEXT_PUBLIC_PIESOCKET_API_KEY,
     cluster: process.env.NEXT_PUBLIC_PIESOCKET_CLUSTER,
     userId
 });
 
-(async () => {
-    const channel = await pieSocket.subscribe(getorCreateRoom());
+const channelPromise:Promise<any> = pieSocket.subscribe(getorCreateRoom());
 
-    export const sendMessage = (message) => {
-        channel.publish(message)
-    }
-})();
+channelPromise.then((channel) => {
+
+    channel.listen('data-change', (data: DataString) => {
+        useDataStore.getState().setCurrentData(data);
+    });
+}).catch((error) => {
+    console.log(error);
+});
+
+export default channelPromise;

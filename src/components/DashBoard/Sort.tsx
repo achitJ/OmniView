@@ -3,6 +3,7 @@
 import { useDataStore } from "@/stores/data";
 import { IconChevronDown } from "@tabler/icons-react";
 import { useEffect, useState } from "react";
+import channelPromise from "@/api/pieSocket";
 
 export default function Sort() {
     const [showMenu, setShowMenu] = useState(false);
@@ -13,8 +14,31 @@ export default function Sort() {
     const currentData = useDataStore(state => state.currentData);
 
     useEffect(() => {
+        channelPromise.then(channel => {
+            channel.listen("sort-data", (
+                { data, column, sort }:
+                    { data: DataString, column: string, sort: "asc" | "desc" }
+            ) => {
+                sortData(data, column, sort);
+                setSortColumn(column);
+                setSort(sort);
+            });
+        });
+    }, []);
+
+    useEffect(() => {
         sortData(currentData, sortColumn, sort);
+        channelPromise.then(channel => {
+            channel.publish("sort-data", { data: currentData, column: sortColumn, sort });
+        });
     }, [sortColumn, sort]);
+
+    useEffect(() => {
+        sortData(currentData, "", sort);
+        channelPromise.then(channel => {
+            channel.publish("sort-data", { data: currentData, column: "", sort });
+        });
+    }, [currentData]);
 
     return (
         <div className="relative">
@@ -47,7 +71,7 @@ export default function Sort() {
                             role="menuitem"
                             key={index}
                             onClick={() => {
-                                if(sortColumn === column) {
+                                if (sortColumn === column) {
                                     setSortColumn("");
                                     return;
                                 }
@@ -65,10 +89,10 @@ export default function Sort() {
                         asc
                     </div>
                     <label htmlFor="AcceptConditions" className="relative h-8 w-12 cursor-pointer">
-                        <input 
-                            type="checkbox" 
-                            id="AcceptConditions" 
-                            className="peer sr-only" 
+                        <input
+                            type="checkbox"
+                            id="AcceptConditions"
+                            className="peer sr-only"
                             onChange={() => setSort(sort === "asc" ? "desc" : "asc")}
                         />
 
