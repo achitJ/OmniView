@@ -14,4 +14,7 @@ NEXT_PUBLIC_JSON_API=https://jsonplaceholder.typicode.com
 NEXT_PUBLIC_PIESOCKET_API_KEY=YOUR_API_KEY
 NEXT_PUBLIC_PIESOCKET_CLUSTER=YOUR_CLUSTER_ID
 ```
-
+- run development server
+```bash
+npm run dev
+```
