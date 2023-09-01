@@ -18,3 +18,5 @@ NEXT_PUBLIC_PIESOCKET_CLUSTER=YOUR_CLUSTER_ID
 ```bash
 npm run dev
 ```
+
+![image](https://github.com/achitJ/OmniView/assets/44137933/65e6d212-8ec3-4925-91c2-d84126551705)
