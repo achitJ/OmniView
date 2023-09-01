@@ -1,7 +1,7 @@
 import { useDataStore } from "@/stores/data";
 import { IconChevronLeft, IconChevronRight } from "@tabler/icons-react";
-import channelPromise from "@/api/pieSocket";
 import { useEffect, useState } from "react";
+import { channelPromise } from "@/api/pieSocket"
 
 export default function Pagination() {
     const [limit, setLimitUI] = useState(10);
@@ -10,6 +10,7 @@ export default function Pagination() {
     const getMaxPage = useDataStore(state => state.getMaxPage);
     const setPage = useDataStore(state => state.setPage);
     const setLimit = useDataStore(state => state.setLimit);
+
 
     useEffect(() => {
         channelPromise.then(channel => {

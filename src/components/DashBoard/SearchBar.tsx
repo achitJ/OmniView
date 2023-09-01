@@ -3,7 +3,7 @@
 import { useDataStore } from "@/stores/data";
 import { IconSearch } from "@tabler/icons-react";
 import { useEffect, useState } from "react";
-import channelPromise from "@/api/pieSocket";
+import { channelPromise } from "@/api/pieSocket"
 
 export default function SearchBar() {
     const [searchQuery, setSearchQuery] = useState('');

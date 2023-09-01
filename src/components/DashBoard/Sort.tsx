@@ -3,7 +3,7 @@
 import { useDataStore } from "@/stores/data";
 import { IconChevronDown } from "@tabler/icons-react";
 import { useEffect, useState } from "react";
-import channelPromise from "@/api/pieSocket";
+import { channelPromise } from "@/api/pieSocket"
 
 export default function Sort() {
     const [showMenu, setShowMenu] = useState(false);

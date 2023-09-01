@@ -9,15 +9,12 @@ const pieSocket = new PieSocket({
     userId
 });
 
-const channelPromise:Promise<any> = pieSocket.subscribe(getorCreateRoom());
+export const channelPromise:Promise<any> = pieSocket.subscribe(getorCreateRoom());
 
 channelPromise.then((channel) => {
-
     channel.listen('data-change', (data: DataString) => {
         useDataStore.getState().setCurrentData(data);
     });
 }).catch((error) => {
     console.log(error);
 });
-
-export default channelPromise;

@@ -3,7 +3,7 @@
 import config from "@/config"
 import { useDataStore } from "@/stores/data"
 import { IconHome } from "@tabler/icons-react"
-import channelPromise from "@/api/pieSocket"
+import { channelPromise } from "@/api/pieSocket"
 
 const { datas, dataIcons } = config
 
@@ -28,8 +28,8 @@ export default function SideBar() {
                     const color = currentData === data ? "text-blue-500" : "";
 
                     return (
-                        <div 
-                            className={`text-lg flex mt-8 gap-1 capitalize cursor-pointer ${color}`} 
+                        <div
+                            className={`text-lg flex mt-8 gap-1 capitalize cursor-pointer ${color}`}
                             key={data + index}
                             onClick={() => {
                                 setCurrentData(data);
